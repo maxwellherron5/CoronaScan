@@ -8,7 +8,7 @@ Created on Thu Mar 26 20:28:08 2020
 
 import scrapy as sp
 import praw
-import time
+import datetime
 import os
 import requests
 import config
@@ -51,20 +51,23 @@ def run_bot(bot):
     subreddits = ("worldnews", "news", "funny", "gaming", "pics", "science", 
                   "videos", "AskReddit", "aww", "askscience", "Tinder")
     
-    
+    print("*"*80)
     print("Running COVID-19 mention scan")
+    print("*"*80+"\n")
     
     for subreddit in subreddits:
         print("-"*80)
         print("Scanning r/" + subreddit)
         print("-"*80)
         current = bot.subreddit(subreddit)
+        cutoff_time = datetime.date.today() - datetime.timedelta(1)
+        cutoff_time = float(cutoff_time.strftime("%s"))
         for submission in current.hot():
-            current_title = submission.title.lower()
-            if "coronavirus" in current_title:
-                print(submission.title + "\n")
+            if submission.created_utc > cutoff_time:
+                current_title = submission.title.lower()
+                if "coronavirus" in current_title:
+                    print(submission.title + "\n")
             
-    
 
 
 if __name__ == '__main__':
