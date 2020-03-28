@@ -12,6 +12,10 @@ import config
 import csv
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+
+subreddits = ("worldnews", "news", "funny", "gaming", "pics", "science", 
+                  "videos", "AskReddit", "aww", "askscience", "Tinder")
 
 def bot_login():
     """
@@ -29,8 +33,6 @@ def run_bot(bot):
     """
     This here is the meat and potatoes. I'll explain later . . .
     """
-    subreddits = ("worldnews", "news", "funny", "gaming", "pics", "science", 
-                  "videos", "AskReddit", "aww", "askscience", "Tinder")
     output = {
         "worldnews" : 0,
         "news" : 0, 
@@ -75,6 +77,12 @@ def write_output(output):
         values = list(output.values())
         values.insert(0, datetime.date.today())
         writer.writerow(values)
+
+
+def print_daily_report():
+    """
+    
+    """    
         
             
 
@@ -82,14 +90,18 @@ def generate_day_comparison():
     """
     Generates a bar graph 
     """
-    df = pd.read_csv("results.csv", names=["worldnews", "news", "funny", "gaming", 
-                                     "pics", "science", "videos", "AskReddit",
-                                     "aww", "askscience", "Tinder"])
-    #fig = plt.figure()
-    print(df['funny'])
+    df = pd.read_csv("results.csv", names=["date", "worldnews", "news", "funny",
+                                           "gaming", "pics", "science", "videos",
+                                           "AskReddit","aww", "askscience", "Tinder"])
+    fig = plt.figure()
+    counts = df.iloc[1]
+    ax = fig.add_axes([0,0,1,1])
+    ax.bar(subreddits, counts)
+    plt.show()
+    
 
 
 if __name__ == '__main__':
-    bot = bot_login()
-    run_bot(bot)
-    #generate_day_comparison()
+    #bot = bot_login()
+    #run_bot(bot)
+    generate_day_comparison()
