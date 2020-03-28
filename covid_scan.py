@@ -15,7 +15,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 subreddits = ("worldnews", "news", "funny", "gaming", "pics", "science", 
-                  "videos", "AskReddit", "aww", "askscience", "Tinder")
+                  "videos", "AskReddit", "aww", "askscience", "Tinder", 
+                  "BlackPeopleTwitter", "politics", "dankmemes", "memes",
+                  "PoliticalHumor", "WhitePeopleTwitter", "ABoringDystopia")
 
 def bot_login():
     """
@@ -44,7 +46,14 @@ def run_bot(bot):
         "AskReddit" : 0, 
         "aww" : 0, 
         "askscience" : 0, 
-        "Tinder" : 0
+        "Tinder" : 0,
+        "BlackPeopleTwitter" : 0,
+        "politics" : 0,
+        "dankmemes" : 0,
+        "PoliticalHumor" : 0,
+        "memes" : 0,
+        "WhitePeopleTwitter" : 0,
+        "ABoringDystopia" : 0
         }
     print("*"*80)
     print(" "*10 + "Running Coronavirus mention scan")
@@ -92,16 +101,21 @@ def generate_day_comparison():
     """
     df = pd.read_csv("results.csv", names=["date", "worldnews", "news", "funny",
                                            "gaming", "pics", "science", "videos",
-                                           "AskReddit","aww", "askscience", "Tinder"])
-    fig = plt.figure()
+                                           "AskReddit","aww", "askscience", "Tinder",
+                                           "BlackPeopleTwitter", "politics", 
+                                           "dankmemes", "memes", "PoliticalHumor",
+                                           "WhitePeopleTwitter", "ABoringDystopia"])
+    #fig = plt.figure()
     counts = df.iloc[1]
-    ax = fig.add_axes([0,0,1,1])
-    ax.bar(subreddits, counts)
-    plt.show()
+    print(counts)
+    
+    #print(counts)
+    #ax.bar(subreddits, counts)
+    #plt.show()
     
 
 
 if __name__ == '__main__':
-    #bot = bot_login()
-    #run_bot(bot)
-    generate_day_comparison()
+    bot = bot_login()
+    run_bot(bot)
+    #generate_day_comparison()
