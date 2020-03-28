@@ -8,20 +8,14 @@ Created on Thu Mar 26 20:28:08 2020
 
 import praw
 import datetime
-import os
-import requests
 import config
 import csv
+import pandas as pd
+import matplotlib.pyplot as plt
 
 def bot_login():
     """
     This function logs in the bot account that I am using to access Reddit.
-
-    Returns
-    -------
-    bot : TYPE
-        DESCRIPTION.
-
     """
     bot = praw.Reddit(username = config.username,
                     password = config.password,
@@ -33,17 +27,7 @@ def bot_login():
 
 def run_bot(bot):
     """
-    
-
-    Parameters
-    ----------
-    bot : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    None.
-    
+    This here is the meat and potatoes. I'll explain later . . .
     """
     subreddits = ("worldnews", "news", "funny", "gaming", "pics", "science", 
                   "videos", "AskReddit", "aww", "askscience", "Tinder")
@@ -73,7 +57,7 @@ def run_bot(bot):
         for submission in current.new():
             if submission.created_utc > cutoff_time:
                 current_title = submission.title.lower()
-                if "coronavirus" in current_title:
+                if "coronavirus" in current_title or "covid" in current_title:
                     count += 1
                     print(submission.title + "\n")
         output[subreddit] = count
@@ -84,23 +68,28 @@ def run_bot(bot):
         
 def write_output(output):
     """
-    
-
-    Parameters
-    ----------
-    output : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    None.
-
+    Writes the output dictionary generated from run_bot() to the existing CSV
     """
     with open("results.csv", 'a') as f:
+        writer = csv.writer(f)
+        values = list(output.values())
+        values.insert(0, datetime.date.today())
+        writer.writerow(values)
         
             
+
+def generate_day_comparison():
+    """
+    Generates a bar graph 
+    """
+    df = pd.read_csv("results.csv", names=["worldnews", "news", "funny", "gaming", 
+                                     "pics", "science", "videos", "AskReddit",
+                                     "aww", "askscience", "Tinder"])
+    #fig = plt.figure()
+    print(df['funny'])
 
 
 if __name__ == '__main__':
     bot = bot_login()
     run_bot(bot)
+    #generate_day_comparison()
