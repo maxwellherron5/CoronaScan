@@ -1,0 +1,2 @@
+#!/bin/sh
+Python /Users/maxwell/Documents/workspace/CoronaScan/covid_scan.py

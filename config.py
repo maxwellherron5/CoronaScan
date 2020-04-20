@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/Users/maxwell/opt/anaconda3/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Mar 26 20:41:32 2020
