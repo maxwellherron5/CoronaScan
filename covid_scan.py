@@ -101,18 +101,15 @@ def generate_day_comparison():
     plt.rcParams['xtick.major.pad']='8'
     N = len(subreddits)
     fig, chart = plt.subplots()
-
     index = np.arange(N)
-
     width = 0.35
     plot = chart.bar(index, vals, width)
-
     chart.set_xticks(index)
-    chart.set_xticklabels(subreddits, rotation=45, ha='right', minor=False)
-    chart.set_xlabel("Subreddit")
-    chart.set_ylabel("COVID-19 Keyword Mentions")
-    chart.set_title("Keyword Mentions by Subreddit on " + str(datetime.date.today()))
-
+    chart.set_xticklabels(subreddits, rotation=45, ha='right', minor=False, fontsize=8)
+    chart.set_xlabel("Subreddit", fontsize=14)
+    chart.set_ylabel("COVID-19 Keyword Mentions", fontsize=14)
+    chart.set_title("Keyword Mentions by Subreddit on " +
+                    str(datetime.date.today()), fontsize=18)
     plt.show()
 
 
