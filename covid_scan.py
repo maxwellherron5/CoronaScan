@@ -115,6 +115,6 @@ def generate_day_comparison():
 
 
 if __name__ == '__main__':
-    #bot = bot_login()
-    #run_bot(bot)
+    bot = bot_login()
+    run_bot(bot)
     generate_day_comparison()
