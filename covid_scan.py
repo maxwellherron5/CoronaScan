@@ -1,9 +1,14 @@
-#!/usr/bin/env python3
+#!/Users/maxwell/opt/anaconda3/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Mar 26 20:28:08 2020
 
-@author: maxwell
+This module runs locally everyday at 11:59 PM central time. It parses through
+the given subreddits and looks for mentions of COVID-19 related keywords.
+It then writes the number of mentions per subreddit to a master CSV, and
+hopefully soon will make some neat plots with the data.
+
+Author: Maxwell Herron
 """
 
 import praw
@@ -14,8 +19,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-subreddits = ("worldnews", "news", "funny", "gaming", "pics", "science", 
-                  "videos", "AskReddit", "aww", "askscience", "Tinder")
+subreddits = ("worldnews", "news", "funny", "gaming", "pics", "science",
+                  "videos", "AskReddit", "aww", "askscience", "Tinder",
+                  "BlackPeopleTwitter", "politics", "dankmemes", "memes",
+                  "PoliticalHumor", "WhitePeopleTwitter", "ABoringDystopia",
+                  "Conservative", "nottheonion", "LateStageCapitalism")
 
 def bot_login():
     """
@@ -33,24 +41,12 @@ def run_bot(bot):
     """
     This here is the meat and potatoes. I'll explain later . . .
     """
-    output = {
-        "worldnews" : 0,
-        "news" : 0, 
-        "funny" : 0, 
-        "gaming" : 0, 
-        "pics" : 0, 
-        "science" : 0,                  
-        "videos" : 0, 
-        "AskReddit" : 0, 
-        "aww" : 0, 
-        "askscience" : 0, 
-        "Tinder" : 0
-        }
+    output = {key: None for key in subreddits}
     print("*"*80)
-    print(" "*10 + "Running Coronavirus mention scan")
+    print(" "*10 + "Running COVID-19 keyword mention scan")
     print("*"*80+"\n")
     print("-"*80)
-    for subreddit in subreddits:       
+    for subreddit in subreddits:
         print("Scanning r/" + subreddit + "\n")
         count = 0
         current = bot.subreddit(subreddit)
@@ -59,49 +55,66 @@ def run_bot(bot):
         for submission in current.new():
             if submission.created_utc > cutoff_time:
                 current_title = submission.title.lower()
-                if "coronavirus" in current_title or "covid" in current_title:
+                keyword_check = ("coronavirus" in current_title or
+                                "covid" in current_title or
+                                "pandemic" in current_title or
+                                "quarantine" in current_title)
+                if keyword_check:
                     count += 1
                     print(submission.title + "\n")
         output[subreddit] = count
-        print("Total mentions of Coronavirus in r/" + subreddit + ":", count)
+        print("Total mentions of COVID-19 related keywords in r/" + subreddit + ":", count)
         print("-"*80)
     write_output(output)
-        
-        
+
+
 def write_output(output):
     """
     Writes the output dictionary generated from run_bot() to the existing CSV
     """
-    with open("results.csv", 'a') as f:
+    with open("/Users/maxwell/Documents/workspace/CoronaScan/results.csv", 'a') as f:
         writer = csv.writer(f)
+        print("Now writing output to results.csv . . .")
         values = list(output.values())
         values.insert(0, datetime.date.today())
         writer.writerow(values)
+        print("Finished writing output!")
 
 
 def print_daily_report():
     """
-    
-    """    
-        
-            
+
+    """
+
+
 
 def generate_day_comparison():
     """
-    Generates a bar graph 
+    Generates a bar graph based upon the findings of the current day.
     """
-    df = pd.read_csv("results.csv", names=["date", "worldnews", "news", "funny",
-                                           "gaming", "pics", "science", "videos",
-                                           "AskReddit","aww", "askscience", "Tinder"])
-    fig = plt.figure()
-    counts = df.iloc[1]
-    ax = fig.add_axes([0,0,1,1])
-    ax.bar(subreddits, counts)
+    df = pd.read_csv("results.csv", names=[i for i in subreddits])
+    row_values = df.to_numpy()
+    counts = row_values[1]
+    vals = []
+    for i in counts:
+        vals.append(int(i))
+    plt.rcParams['xtick.major.pad']='8'
+    N = len(subreddits)
+    fig, chart = plt.subplots()
+    index = np.arange(N)
+    width = 0.35
+    plot = chart.bar(index, vals, width)
+    chart.set_xticks(index)
+    chart.set_xticklabels(subreddits, rotation=45, ha='right', minor=False, fontsize=8)
+    chart.set_xlabel("Subreddit", fontsize=14)
+    chart.set_ylabel("COVID-19 Keyword Mentions", fontsize=14)
+    chart.set_title("Keyword Mentions by Subreddit on " +
+                    str(datetime.date.today()), fontsize=18)
     plt.show()
-    
+
 
 
 if __name__ == '__main__':
-    #bot = bot_login()
-    #run_bot(bot)
+    bot = bot_login()
+    run_bot(bot)
     generate_day_comparison()
