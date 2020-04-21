@@ -103,17 +103,12 @@ def print_daily_report():
 
 def generate_day_comparison():
     """
-    Generates a bar graph
+    Generates a bar graph based upon the findings of the current day.
     """
-    df = pd.read_csv("results.csv", names=["date", "worldnews", "news", "funny",
-                                           "gaming", "pics", "science", "videos",
-                                           "AskReddit","aww", "askscience", "Tinder",
-                                           "BlackPeopleTwitter", "politics",
-                                           "dankmemes", "memes", "PoliticalHumor",
-                                           "WhitePeopleTwitter", "ABoringDystopia"])
+    df = pd.read_csv("results.csv", names=[i for i in subreddits])
     #fig = plt.figure()
-    counts = df.iloc[1]
-    print(counts)
+    #counts = df.iloc[1]
+    #print(counts)
 
     #print(counts)
     #ax.bar(subreddits, counts)
