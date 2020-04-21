@@ -95,17 +95,24 @@ def generate_day_comparison():
     df = pd.read_csv("results.csv", names=[i for i in subreddits])
     row_values = df.to_numpy()
     counts = row_values[1]
-    print(counts)
-    # Label locations
-    x = np.arange(len(subreddits))
-    # Bar width
+    vals = []
+    for i in counts:
+        vals.append(int(i))
+    plt.rcParams['xtick.major.pad']='8'
+    N = len(subreddits)
+    fig, chart = plt.subplots()
+
+    index = np.arange(N)
+
     width = 0.35
-    fig, ax = plt.subplots()
-    bar = ax.bar(x, counts, width)
-    ax.set_ylabel("COVID-19 Keyword Mentions")
-    ax.set_xlabel("Subreddit")
-    ax.set_xticks(x)
-    ax.set_xticklabels(subreddits)
+    plot = chart.bar(index, vals, width)
+
+    chart.set_xticks(index)
+    chart.set_xticklabels(subreddits, rotation=45, ha='right', minor=False)
+    chart.set_xlabel("Subreddit")
+    chart.set_ylabel("COVID-19 Keyword Mentions")
+    chart.set_title("Keyword Mentions by Subreddit on " + str(datetime.date.today()))
+
     plt.show()
 
 
