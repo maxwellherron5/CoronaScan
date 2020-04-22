@@ -90,7 +90,8 @@ def print_daily_report():
 
 def generate_day_comparison():
     """
-    Generates a bar graph based upon the findings of the current day.
+    Generates a bar graph based upon the findings of the current day. It then
+    saves the graph as a .png in the plots directory.
     """
     df = pd.read_csv("results.csv", names=[i for i in subreddits])
     row_values = df.to_numpy()
@@ -110,7 +111,7 @@ def generate_day_comparison():
     chart.set_ylabel("COVID-19 Keyword Mentions", fontsize=14)
     chart.set_title("Keyword Mentions by Subreddit on " +
                     str(datetime.date.today()), fontsize=18)
-    plt.show()
+    fig.savefig("plots/" + str(datetime.date.today()) + "png")
 
 
 
