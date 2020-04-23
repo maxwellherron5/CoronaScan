@@ -25,6 +25,10 @@ subreddits = ("worldnews", "news", "funny", "gaming", "pics", "science",
                   "PoliticalHumor", "WhitePeopleTwitter", "ABoringDystopia",
                   "Conservative", "nottheonion", "LateStageCapitalism")
 
+# This is the day that data collection began. It will be used to calculate
+# the offset necessary to determine which row of the CSV to plot.
+start_day = datetime.date(2020, 4, 23)
+
 def bot_login():
     """
     This function logs in the bot account that I am using to access Reddit.
@@ -87,6 +91,15 @@ def print_daily_report():
     """
 
 
+def get_offset():
+    """
+    Calculates the integer offset between the start day of data collection,
+    and the current day. This is then used to determine which line of the CSV
+    to generate the plot from.
+    """
+    offset = datetime.date.today() - start_day
+    return int(offset.days)
+
 
 def generate_day_comparison():
     """
@@ -100,7 +113,7 @@ def generate_day_comparison():
                      names=[i for i in subreddits])
 
     row_values = df.to_numpy()
-    counts = row_values[1]
+    counts = row_values[get_offset() + 1]
     vals = []
     for i in counts:
         vals.append(int(i))
@@ -128,6 +141,6 @@ def generate_day_comparison():
 
 
 if __name__ == '__main__':
-    bot = bot_login()
-    run_bot(bot)
+    # bot = bot_login()
+    # run_bot(bot)
     generate_day_comparison()
