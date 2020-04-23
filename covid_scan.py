@@ -136,11 +136,11 @@ def generate_day_comparison():
     plt.tight_layout()
     fig.set_size_inches(18.5, 10.5)
     fig.savefig("/Users/maxwell/Documents/workspace/CoronaScan/plots/" +
-                str(datetime.date.today()) + "png", bbox_inches='tight')
+                str(datetime.date.today()), bbox_inches='tight')
 
 
 
 if __name__ == '__main__':
-    # bot = bot_login()
-    # run_bot(bot)
+    bot = bot_login()
+    run_bot(bot)
     generate_day_comparison()
