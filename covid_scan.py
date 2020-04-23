@@ -90,10 +90,15 @@ def print_daily_report():
 
 def generate_day_comparison():
     """
+    =========
+    Bar Graph
+    =========
     Generates a bar graph based upon the findings of the current day. It then
     saves the graph as a .png in the plots directory.
     """
-    df = pd.read_csv("results.csv", names=[i for i in subreddits])
+    df = pd.read_csv("/Users/maxwell/Documents/workspace/CoronaScan/results.csv",
+                     names=[i for i in subreddits])
+
     row_values = df.to_numpy()
     counts = row_values[1]
     vals = []
@@ -105,13 +110,20 @@ def generate_day_comparison():
     index = np.arange(N)
     width = 0.35
     plot = chart.bar(index, vals, width)
+    for i, v in enumerate(vals):
+        chart.text(i-.2, v/(vals[i]+100), vals[i], fontsize=11)
+
     chart.set_xticks(index)
     chart.set_xticklabels(subreddits, rotation=45, ha='right', minor=False, fontsize=8)
     chart.set_xlabel("Subreddit", fontsize=14)
-    chart.set_ylabel("COVID-19 Keyword Mentions", fontsize=14)
+    chart.set_ylabel("Number of Mentions", fontsize=14)
     chart.set_title("Keyword Mentions by Subreddit on " +
-                    str(datetime.date.today()), fontsize=18)
-    fig.savefig("plots/" + str(datetime.date.today()) + "png")
+                    str(datetime.date.today()), fontsize=20, pad=20)
+
+    plt.tight_layout()
+    fig.set_size_inches(18.5, 10.5)
+    fig.savefig("/Users/maxwell/Documents/workspace/CoronaScan/plots/" +
+                str(datetime.date.today()) + "png", bbox_inches='tight')
 
 
 
