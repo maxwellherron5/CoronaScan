@@ -27,7 +27,7 @@ subreddits = ("worldnews", "news", "funny", "gaming", "pics", "science",
 
 # This is the day that data collection began. It will be used to calculate
 # the offset necessary to determine which row of the CSV to plot.
-start_day = datetime.date(2020, 4, 23)
+start_day = datetime.date(2020, 4, 26)
 
 def bot_login():
     """
@@ -47,7 +47,7 @@ def run_bot(bot):
     """
     output = {key: None for key in subreddits}
     print("*"*80)
-    print(" "*10 + "Running COVID-19 keyword mention scan")
+    print(" "*10 + "Running COVID-19 keyword mention scan for " + str(datetime.date.today()))
     print("*"*80+"\n")
     print("-"*80)
     for subreddit in subreddits:
