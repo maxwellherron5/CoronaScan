@@ -27,7 +27,7 @@ subreddits = ("worldnews", "news", "funny", "gaming", "pics", "science",
 
 # This is the day that data collection began. It will be used to calculate
 # the offset necessary to determine which row of the CSV to plot.
-start_day = datetime.date(2020, 4, 26)
+start_day = datetime.date(2020, 4, 28)
 
 def bot_login():
     """
