@@ -153,11 +153,13 @@ def generate_line_plot():
     """
     df = pd.read_csv("/Users/maxwell/Documents/workspace/CoronaScan/results.csv",
                      names=[i for i in subreddits])
-    x = np.linspace()
 
+    dates = df.loc['2020-04-28']
+    
 
 
 if __name__ == '__main__':
-    bot = bot_login()
-    run_bot(bot)
-    generate_day_comparison()
+    # bot = bot_login()
+    # run_bot(bot)
+    # generate_day_comparison()
+    generate_line_plot()
