@@ -43,7 +43,11 @@ def bot_login():
 
 def run_bot(bot):
     """
-    This here is the meat and potatoes. I'll explain later . . .
+    Iterates through all subreddits in the subreddit list. It then parses through
+    the 'new' section of the subreddit, and views all posts that are from the
+    current day. If detects a mention of [coronavirus, covid, pandemic, quarantine],
+    it will add one to the total count. It then sets that count as the value tied
+    to the subreddit key in the dictionary.
     """
     output = {key: None for key in subreddits}
     print("*"*80)
@@ -107,7 +111,7 @@ def generate_day_comparison():
     Bar Graph
     =========
     Generates a bar graph based upon the findings of the current day. It then
-    saves the graph as a .png in the plots directory.
+    saves the graph as a .png in /plots/daily_bar_graphs
     """
     df = pd.read_csv("/Users/maxwell/Documents/workspace/CoronaScan/results.csv",
                      names=[i for i in subreddits])
@@ -135,8 +139,21 @@ def generate_day_comparison():
 
     plt.tight_layout()
     fig.set_size_inches(18.5, 10.5)
-    fig.savefig("/Users/maxwell/Documents/workspace/CoronaScan/plots/" +
+    fig.savefig("/Users/maxwell/Documents/workspace/CoronaScan/plots/daily_bar_graphs/" +
                 str(datetime.date.today()), bbox_inches='tight')
+
+
+def generate_line_plot():
+    """
+    =========
+    Line Plot
+    =========
+    Generates a histogram based upon all the currently recorded findings in the
+    csv file. It then writes it as a .png to /plots/line_plots.
+    """
+    df = pd.read_csv("/Users/maxwell/Documents/workspace/CoronaScan/results.csv",
+                     names=[i for i in subreddits])
+    x = np.linspace()
 
 
 
