@@ -102,7 +102,7 @@ def get_offset():
     to generate the plot from.
     """
     offset = datetime.date.today() - start_day
-    return int(offset.days)
+    return int(offset.days) - 1
 
 
 def generate_day_comparison():
@@ -155,11 +155,10 @@ def generate_line_plot():
                      names=[i for i in subreddits])
 
     dates = df.loc['2020-04-28']
-    
+
 
 
 if __name__ == '__main__':
-    # bot = bot_login()
-    # run_bot(bot)
-    # generate_day_comparison()
-    generate_line_plot()
+    bot = bot_login()
+    run_bot(bot)
+    generate_day_comparison()
