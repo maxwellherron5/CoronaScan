@@ -89,12 +89,6 @@ def write_output(output):
         print("Finished writing output!")
 
 
-def print_daily_report():
-    """
-
-    """
-
-
 def get_offset():
     """
     Calculates the integer offset between the start day of data collection,
@@ -155,7 +149,6 @@ def generate_line_plot():
                      names=[i for i in subreddits])
 
     dates = df.loc['2020-04-28']
-
 
 
 if __name__ == '__main__':
