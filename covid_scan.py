@@ -142,7 +142,7 @@ def generate_line_plot():
     =========
     Line Plot
     =========
-    Generates a histogram based upon all the currently recorded findings in the
+    Generates a line plot based upon all the currently recorded findings in the
     csv file. It then writes it as a .png to /plots/line_plots.
     """
     df = pd.read_csv("/Users/maxwell/Documents/workspace/CoronaScan/results.csv",
