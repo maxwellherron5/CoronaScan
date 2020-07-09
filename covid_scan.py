@@ -96,7 +96,7 @@ def get_offset():
     to generate the plot from.
     """
     offset = datetime.date.today() - start_day
-    return int(offset.days) - 3
+    return int(offset.days) - 4
 
 
 def generate_day_comparison():
